@@ -1,0 +1,248 @@
+{
+  "main": {
+    "id": "67bedf679e5b996e",
+    "type": "split",
+    "children": [
+      {
+        "id": "95ee363fcc6209e6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7640d062ea5ac866",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "All Notes/Developer Mindset/The Pragmatic Programmer/The Basic Tools.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "The Basic Tools"
+            }
+          },
+          {
+            "id": "4aacdbc4dfe3dcbe",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "All Notes/General Concepts/Checksums.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Checksums"
+            }
+          },
+          {
+            "id": "adb2a141ed70ff4a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "All Notes/Computer Networks/Handshakes.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Handshakes"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "e81cba7a88a8d0a9",
+    "type": "split",
+    "children": [
+      {
+        "id": "bd36bd436239b428",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "42c7c9483917d539",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "340c301e92207370",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "unwrap",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "6b11f4a9456aca4f",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "f4fa201bd767c2a2",
+    "type": "split",
+    "children": [
+      {
+        "id": "aa7858fa277b9527",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "809ea1b46b36b56d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "All Notes/Rust/Structs/Named-Field Structs.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Named-Field Structs"
+            }
+          },
+          {
+            "id": "7b6b74956a11f2e5",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "All Notes/Rust/Structs/Named-Field Structs.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Named-Field Structs"
+            }
+          },
+          {
+            "id": "1b26b12f8b64a774",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "aaecf2091af66ca3",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "All Notes/Rust/Structs/Named-Field Structs.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Named-Field Structs"
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "obsidian-excalidraw-plugin:Create new drawing": false,
+      "templater-obsidian:Templater": false,
+      "random-note:Open random note": false,
+      "periodic-notes:Open today": false
+    }
+  },
+  "active": "7640d062ea5ac866",
+  "lastOpenFiles": [
+    "All Notes/General Concepts/Grep.md",
+    "All Notes/Developer Mindset/The Pragmatic Programmer/The Basic Tools.md",
+    "All Notes/Regular Expressions/Regular Expressions.md",
+    "All Notes/General Concepts/Checksums.md",
+    "All Notes/Computer Networks/Handshakes.md",
+    "All Notes/Computer Networks/TCP",
+    "All Notes/Computer Networks",
+    "All Notes/Developer Mindset/The Pragmatic Programmer/A Pragmatic Approach.md",
+    "Research Papers/LeanStore- High Performance Storage Engine for NVMe SSDs.pdf",
+    "All Notes/Developer Mindset/The Pragmatic Programmer/A Pragmatic Philosophy.md",
+    "All Notes/Developer Mindset/The Pragmatic Programmer/The Pragmatic Programmer.md",
+    "All Notes/Developer Mindset/Developer Mindset.md",
+    "All Notes/Rust/Structs/Images and Drawings/Struct Memory Layout.excalidraw.md",
+    "All Notes/Kafka/Kafka Wire Protocol.md",
+    "All Notes/Developer Mindset/The Pragmatic Programmer",
+    "All Notes/Rust/Memory Management/Drawings/Ownership and Borrowing.excalidraw.md",
+    "All Notes/Kafka",
+    "All Notes/Rust/Traits And Generics/Drawings/Trait Memory Layout.43.11.excalidraw.md",
+    "All Notes/Rust/Traits And Generics/Fully Qualified Method Calls.md",
+    "All Notes/Rust/Traits And Generics/Reverse-Engineering Bounds.md",
+    "All Notes/Rust/Traits And Generics/Generic Functions and Type Parameters.md",
+    "All Notes/Rust/Error/Other Error Handling Parts.md",
+    "All Notes/General Concepts/Virtual Functions and Virtual Function Calls.md",
+    "All Notes/Rust/Fundamental Types/Arrays, Vectors, and Slices.md",
+    "All Notes/SQLite/SQLite.md",
+    "All Notes/SQLite",
+    "All Notes/Database And DB Management/Blogs/Turso, A deep look into our new massive multitenant architecture.md",
+    "All Notes/Rust/Operator Overloading/Operator Overloading.md",
+    "All Notes/Rust/Operator Overloading",
+    "All Notes/Rust/Untitled.md",
+    "All Notes/Rust/Traits And Generics/Traits That Define Relationship Between Types.md",
+    "All Notes/Rust/Traits And Generics/Defining and Implementing Traits.md",
+    "All Notes/Data Structures And Algorithms/Gap Buffers.md",
+    "All Notes/Rust/Traits And Generics/Drawings",
+    "Research Papers/The Tail At Scale.pdf",
+    "All Notes/Database And DB Management/P99 Conference",
+    "All Notes/Research Papers/Spanner_/Spanserver_Stack.png",
+    "All Notes/Research Papers/Spanner_/Spanner_Server_Organisation.png",
+    "All Notes/Research Papers/Mapreduce/Execution_Overview.png",
+    "All Notes/Rust/Fundamental Types/Images & Drawings/Slice Memory Layout.png",
+    "All Notes/Rust/Memory Management/Untitled.canvas",
+    "576C9C25-E33B-4260-8627-BA3459C3AA44_1_102_a.jpeg",
+    "All Notes/Rust/Fundamental Types/Images & Drawings/String, &str and str.jpeg",
+    "Untitled.canvas",
+    "All Notes/JavaScript/Images/console.time.png",
+    "All Notes/JavaScript/Images/console.dir.png",
+    "All Notes/JavaScript/Images/console.table.png",
+    "All Notes/Rust/Fundamental Types/Images & Drawings/Rust_Roadmap.jpg"
+  ]
+}

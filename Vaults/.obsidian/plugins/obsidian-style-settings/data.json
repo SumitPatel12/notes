@@ -1,0 +1,19 @@
+{
+  "things-style@@h3-color": "#FFD54F",
+  "things-style@@h4-color": "#AED581",
+  "things-style@@h2-color": "#FFB74D",
+  "things-style@@h5-color": "#80DEEA",
+  "things-style@@h6-color": "#B39DDB",
+  "things-style@@em-color": "#8A81D4",
+  "things-style@@strong-color": "#58ABAE",
+  "Editor@@collapse-icon-restore": true,
+  "Editor@@heading-indicator-off": true,
+  "Editor@@h1-accent-color@@dark": "#7C2929",
+  "Editor@@h2-accent-color@@dark": "#7C2929",
+  "Editor@@h3-accent-color@@dark": "#F2BA10",
+  "Editor@@h3-color-select": "h3-color-designated",
+  "Editor@@h2-color-select": "h2-color-designated",
+  "Editor@@h4-color-select": "h4-color-designated",
+  "Editor@@h5-color-select": "h5-color-designated",
+  "Editor@@h6-color-select": "h6-color-designated"
+}
