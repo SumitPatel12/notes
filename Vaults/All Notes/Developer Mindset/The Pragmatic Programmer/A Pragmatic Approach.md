@@ -5,6 +5,7 @@ _____
 **References**: 
 ______
 
+### TLDR
 - Good design is easier to change than bad design.
 	- When Designing keep *ETC: Easy to Change* in mind
 - DRY: Don't repeat yourself.

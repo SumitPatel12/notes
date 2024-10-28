@@ -5,7 +5,7 @@ _____
 **References**: 
 ______
 
-### Tips
+### TLDR
 - Care about your craft.
 - Think! About your work.
 - You have agency.

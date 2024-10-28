@@ -8,20 +8,6 @@
         "type": "tabs",
         "children": [
           {
-            "id": "7640d062ea5ac866",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "All Notes/Developer Mindset/The Pragmatic Programmer/The Basic Tools.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "The Basic Tools"
-            }
-          },
-          {
             "id": "4aacdbc4dfe3dcbe",
             "type": "leaf",
             "state": {
@@ -194,19 +180,27 @@
       "periodic-notes:Open today": false
     }
   },
-  "active": "7640d062ea5ac866",
+  "active": "4aacdbc4dfe3dcbe",
   "lastOpenFiles": [
-    "All Notes/General Concepts/Grep.md",
-    "All Notes/Developer Mindset/The Pragmatic Programmer/The Basic Tools.md",
-    "All Notes/Regular Expressions/Regular Expressions.md",
-    "All Notes/General Concepts/Checksums.md",
+    "All Notes/Developer Mindset/The Pragmatic Programmer/Pragmatic Projects.md",
+    "All Notes/Developer Mindset/The Pragmatic Programmer/Before the Project.md",
+    "All Notes/Developer Mindset/The Pragmatic Programmer/While You are Coding.md",
+    "All Notes/Developer Mindset/The Pragmatic Programmer/Bend or Break?.md",
+    "All Notes/Developer Mindset/The Pragmatic Programmer/Concurrency.md",
+    "All Notes/Developer Mindset/The Pragmatic Programmer/The Pragmatic Programmer.md",
     "All Notes/Computer Networks/Handshakes.md",
+    "All Notes/Text Editor Things",
+    "All Notes/General Concepts/Checksums.md",
+    "All Notes/Developer Mindset/The Pragmatic Programmer/A Pragmatic Approach.md",
+    "All Notes/Developer Mindset/The Pragmatic Programmer/A Pragmatic Philosophy.md",
+    "All Notes/Developer Mindset/The Pragmatic Programmer/Pragmatic Paranoia.md",
+    "All Notes/Developer Mindset/The Pragmatic Programmer/The Basic Tools.md",
+    "All Notes/Database And DB Management/IO Uring.md",
+    "All Notes/General Concepts/Grep.md",
+    "All Notes/Regular Expressions/Regular Expressions.md",
     "All Notes/Computer Networks/TCP",
     "All Notes/Computer Networks",
-    "All Notes/Developer Mindset/The Pragmatic Programmer/A Pragmatic Approach.md",
     "Research Papers/LeanStore- High Performance Storage Engine for NVMe SSDs.pdf",
-    "All Notes/Developer Mindset/The Pragmatic Programmer/A Pragmatic Philosophy.md",
-    "All Notes/Developer Mindset/The Pragmatic Programmer/The Pragmatic Programmer.md",
     "All Notes/Developer Mindset/Developer Mindset.md",
     "All Notes/Rust/Structs/Images and Drawings/Struct Memory Layout.excalidraw.md",
     "All Notes/Kafka/Kafka Wire Protocol.md",
@@ -220,18 +214,10 @@
     "All Notes/Rust/Error/Other Error Handling Parts.md",
     "All Notes/General Concepts/Virtual Functions and Virtual Function Calls.md",
     "All Notes/Rust/Fundamental Types/Arrays, Vectors, and Slices.md",
-    "All Notes/SQLite/SQLite.md",
     "All Notes/SQLite",
-    "All Notes/Database And DB Management/Blogs/Turso, A deep look into our new massive multitenant architecture.md",
-    "All Notes/Rust/Operator Overloading/Operator Overloading.md",
     "All Notes/Rust/Operator Overloading",
-    "All Notes/Rust/Untitled.md",
-    "All Notes/Rust/Traits And Generics/Traits That Define Relationship Between Types.md",
-    "All Notes/Rust/Traits And Generics/Defining and Implementing Traits.md",
-    "All Notes/Data Structures And Algorithms/Gap Buffers.md",
     "All Notes/Rust/Traits And Generics/Drawings",
     "Research Papers/The Tail At Scale.pdf",
-    "All Notes/Database And DB Management/P99 Conference",
     "All Notes/Research Papers/Spanner_/Spanserver_Stack.png",
     "All Notes/Research Papers/Spanner_/Spanner_Server_Organisation.png",
     "All Notes/Research Papers/Mapreduce/Execution_Overview.png",
