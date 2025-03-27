@@ -1,7 +1,7 @@
 _____
 **Created**: 07-11-2024 09:02 am
 **Status**: In Progress
-**Tags**: #DataOrientedDesign [[System Design]]
+**Tags**: #Data_Oriented_Design [[System Design]]
 **References**: [Andrew Kelly Practical Data Oriented Design](https://www.youtube.com/watch?v=IroPQ150F6c)
 ______
 

@@ -1,7 +1,7 @@
 _____
 **Created**: 01-10-2024 09:28 am
 **Status**: In Progress
-**Tags**: #Coding #DynamicProgramming [[Dynamic Programming]]
+**Tags**: #Coding #Dynamic_Programming [[Dynamic Programming]]
 **References**: [Numberphile LilyPad](https://www.youtube.com/watch?v=JBkmR3rzz5M)
 ______
 ### Question

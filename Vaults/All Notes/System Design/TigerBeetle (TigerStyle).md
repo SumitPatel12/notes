@@ -1,7 +1,7 @@
 _____
 **Created**: 22-10-2024 08:12 am
 **Status**: In Progress
-**Tags**: #SystemDesing [[System Design]]
+**Tags**: #System_Desing [[System Design]]
 **References**: [TigerStyle Video](https://www.youtube.com/watch?v=w3WYdYyjek4) [TigerStyle Github](https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md)
 ______
 

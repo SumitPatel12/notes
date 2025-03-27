@@ -1,7 +1,7 @@
 _____
 **Created**: 31-08-2024 06:11 pm
 **Status**: In Progress
-**Tags**: #ProgrammingConcepts [[Programming Concepts]]
+**Tags**: #Programming_Concepts [[Programming Concepts]]
 **References**: [Lexical Scope](https://stackoverflow.com/questions/1047454/what-is-lexical-scope) [Scope](https://press.rebus.community/programmingfundamentals/chapter/scope/)
 ______
 

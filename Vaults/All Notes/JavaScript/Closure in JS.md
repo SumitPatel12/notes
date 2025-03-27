@@ -1,7 +1,7 @@
 _____
 **Created**: 31-08-2024 05:37 pm
 **Status**: In Progress
-**Tags**: #JavaScript #ProgrammingConcepts [[JavaScript]] [[Programming Concepts]]
+**Tags**: #JavaScript #Programming_Concepts [[JavaScript]] [[Programming Concepts]]
 **References**: [Closure in JS](https://blog.hubspot.com/website/javascript-closure) [Fireship Closures](https://youtu.be/vKJpN5FAeF4)
 ______
 

@@ -1,7 +1,7 @@
 _____
 **Created**: 28-10-2024 03:57 pm
 **Status**: In Progress
-**Tags**: #SQL #DatabaseSystem [[SQL]]
+**Tags**: #SQL #Database_System [[SQL]]
 **References**: [Introduction to Database Systems](https://youtube.com/playlist?list=PLSE8ODhjZXjYDBpQnSymaectKjxCy6BYq&si=t4vHmPBTCxAqTUjT)
 ______
 

@@ -1,7 +1,7 @@
 _____
 **Created**: 16-10-2024 09:05 am
 **Status**: In Progress
-**Tags**: #Rust #RustClosures [[Rust]] [[Rust Closures]]
+**Tags**: #Rust #Rust_Closures [[Rust]] [[Rust Closures]]
 **References**: 
 ______
 

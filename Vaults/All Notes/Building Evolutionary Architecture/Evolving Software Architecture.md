@@ -1,7 +1,7 @@
 _____
 **Created**: 19-11-2024 08:38 am
 **Status**: Completed
-**Tags**: #SoftwareArchitecture [[Software Architecture]]
+**Tags**: #Software_Architecture [[Software Architecture]]
 **References**: 
 ______
 

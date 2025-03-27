@@ -1,7 +1,7 @@
 _____
 **Created**: 19-10-2024 10:14 am
 **Status**: In Progress
-**Tags**: #RustAttributes [[Rust]]
+**Tags**: #Rust_Attributes [[Rust]]
 **References**: 
 ______
 

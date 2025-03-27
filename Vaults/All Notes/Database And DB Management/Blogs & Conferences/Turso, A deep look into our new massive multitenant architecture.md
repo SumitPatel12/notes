@@ -1,7 +1,7 @@
 _____
 **Created**: 19-10-2024 08:36 pm
 **Status**: Completed
-**Tags**: #DatabaseArchitecture #Rust [[Database Architecture]] [[Rust]]
+**Tags**: #Database_Architecture #Rust [[Database Architecture]] [[Rust]]
 **References**: [A Deep Look into Our New Massive Multitenant Architecture](https://turso.tech/blog/a-deep-look-into-our-new-massive-multitenant-architecture)
 ______
 
