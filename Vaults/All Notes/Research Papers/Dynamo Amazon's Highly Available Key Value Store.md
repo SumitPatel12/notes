@@ -31,7 +31,7 @@ ______
 #### Service Level Agreements
 Include's the client’s expected request rate distribution for a particular API and the expected service latency under those conditions.
 
-![[Pasted image 20250329144714.png]]
+![[Pasted image 20250329144714.png|500]]
 
 SLAs are expressed and measured at the 99.9th percentile of the distribution. The choice for 99.9% over an even higher percentile was made after taking into consideration the cost-benefit analysis which indicated that above this there was significant cost overhead for very small performance gains.
 
@@ -112,3 +112,84 @@ The single position assignment of each node for consistent hashing did not sit w
 - When processing a read request Dynamo has access to multiple branches that cannot be syntactically reconciled, it will return all the objects return all the objects at the leaves, with the corresponding version information in the context. And update using this context is considered to have reconciled the divergent versions and the branches are collapsed into a single new version.
 
 ##### Execution of get() and put()
+There are two strategies a client can use to select a node:
+1. Route its request through a generic load balancer that will select a node based on load information.
+2. Use a partition-aware client library that routes requests directly to the appropriate coordinator nodes.
+First has the benefit of the application not needing to to include any Dynamo related code, second one of-course gives better latency.
+
+Normally first among the top N nodes in the *preference list* would serve as a coordinator. If the request are received through a load balancer, requests to access a key may be routed to any random node nit the ring. In that case the node who received the request does not coordinate it if it is not in the top *N* of the keys preference list. Instead the at node will forward it to the first among the top *N* nodes in the preference list.
+
+Dynamo uses a quorum like protocol for consistency. It has two key configurable: *R* and *W*; R being the minimum number of nodes that must participate in a successful read operation and W being the minimum number of nodes that must participate in a write operation. Setting R and W such that **R + W > N** leads to a quorum-like system.
+In this model the latency of get operation is dictated by the slowest of the R replicas. For this reason, T and W are usually configured to be less than N, to provide better latency.
+
+For put:
+- Coordinator generates the vector clock for  the new version and writes it locally.
+- Then its sends the new version to the N highest-ranked reachable nodes.
+- If at least W-1 respond then the write is considered successful.
+
+For get:
+- Coordinator requests all existing versions of dat for that key from the N highest-ranked reachable nodes in the preference list, then waits for R responses before returning the result to the client.
+- In case of multiple versions it returns all the versions it deems to be causally unrelated.
+- The divergent versions are then reconciled and that version superseding the current version is written back.
+
+##### Handling Failures: Hinted Handoff
+It uses a `sloppy quorum`; all rads and writes are performed on the first *N healthy* nodes from the preference list, not always the first N nodes encountered while walking the consistent hashing ring.
+
+Say node A fails and a write operation that should have been routed to A is instead routed to D. Then the request to D will have a hint in the metadata that would tell it that the request was originally meant for node A. So, it will keep that reqs content in a separate local store which is scanned periodically. When node A gets back up, the scan will try to send the relevant replicas to A and on successful transfer the data on D would be safe to delete.
+
+Dynamo is configured to replicate across multiple data centers, to avoid down time in case a data center is down for any reason. To do this the preference list of a key is constructed such that the storage nodes are spread across multiple data centers.
+
+##### Handling Permanent Failures: Replica Synchronization
+There are times when the hinted replicas become unavailable before the replica can make it back to the intended node. An anti-entropy protocol is deployed to combat such cases.
+
+To detect inconsistencies between replicas faster and to minimize the amount of Data transferred, it uses **Merkle trees**. It is a has tree where leaves are hashes of the values of individual keys. Parent nodes higher in the tree are hashes of their respective children. The advantage being each branch can be checked independently without requiring nodes to download the entire tree or the entire data set. It also helps reducing the amount of data transfer for checking inconsistencies since if the hash values of root of two trees are equal then it means the leaf values are also equal, meaning no synchronization is required.
+
+Each node maintains a separate Merkle tree for each key range it hosts. This allows easy comparisons for whether key rage are up-to-date. On different root values the tree is traversed to find the differences. The downside being when a node joins the system the tree would need to be recalculated.
+
+##### Membership and Failure Detection
+###### Ring Membership
+When a node starts for the first time, it chooses a set of tokens/virtual nodes and maps nodes to their respective token sets. The mapping is persisted on disk and initially contains only the local node and token set. The mappings stored at different Dynamo nodes are reconciled during the same communication exchange that reconciles the membership change histories. Thus, partitioning and placement information also propagates via gossip-based protocol and each storage node is aware of the token ranges handled by its peers.
+
+###### External Discovery
+The mechanism described above could temporarily result in a logically partitioned Dynamo ring. For example, the administrator could contact node A to join A to the ring, then contact node B to join B to the ring. In this scenario, nodes A and B would each consider itself a member of the ring, yet neither would be immediately aware of the other. To prevent logical partitions, some Dynamo nodes play the role of seeds. Seeds are nodes that are discovered via an external mechanism and are known to all nodes. Because all nodes eventually reconcile their membership with a seed, logical partitions are highly unlikely. Seeds can be obtained either from static configuration or from a configuration service. Typically seeds are fully functional nodes in the Dynamo ring.
+
+###### Failure Detection
+Node A may consider node B failed if node B does not respond to node A's messages, (even if B is responsive to node C's messages). In the presence of a steady rate of client request generating internode communication in the Dynamo ring, a node A quickly discovers that a node B is unresponsive when B fails to respond to a message; Node A then uses alternate nodes to service requests that map to B's partitions; A periodically retries B to check for the latter's recovery. IN the absence of client requests to drive traffic between two nodes, neither node really needs to know whether the other is reachable and responsive.
+
+##### Adding/Removing Storage Nodes
+When a new node is added to the system, it gets assigned a number of tokens that are randomly scattered on the ring. For every key range that is assigned to node X, there may be a number of nodes that are currently in charge of handling keys that fall within its token range. Due to that allocation to X, some existing nodes no longer have that key range so those keys are transferred to X.
+Similarly when a node is removed it sends the keys it was managing to relevant nodes that would handle the key range when it leaves.
+
+#### Implementation
+Each node has the following three main components:
+1. Request Coordination
+2. Membership and failure detection
+3. Local Persistence Engine
+
+The local persistence component allows for different storage engines to be plugged in, like Berkeley DB Transactional Data Store, MySQL, and an in-memory buffer with persistent backing tree. These choices are made based on the applications access patterns and object sizes.
+
+The request coordination component is built on top of an event- driven messaging substrate where the message processing pipeline is split into multiple stages similar to the SEDA architecture. All communications are implemented using Java NIO channels. The coordinator executes the read and write requests on behalf of clients by collecting data from one or more nodes (in the case of reads) or storing data at one or more nodes (for writes). Each client request results in the creation of a state machine on the node that received the client request. The state machine contains all the logic for identifying the nodes responsible for a key, sending the requests, waiting for responses, potentially doing retries, processing the replies and packaging the response to the client. Each state machine instance handles exactly one client request. For instance, a read operation implements the following state machine: (i) send read requests to the nodes, (ii) wait for minimum number of required responses, (iii) if too few replies were received within a given time bound, fail the request, (iv) otherwise gather all the data versions and determine the ones to be returned and (v) if versioning is enabled, perform syntactic reconciliation and generate an opaque write context that contains the vector clock that subsumes all the remaining versions. For the sake of brevity the failure handling and retry states are left out.
+
+During read if stale versions were returned the the coordinator node updates those nodes with the more recent copy thus repairing them.
+
+Write requests can be handled by any of the top N nodes in the preference list. Since each write usually follows a read operation, the coordinator for a write is chosen to be the node that replied fastest to the previous read operation which is stored in the context information of the request. This optimization enables them to pick the node that has the data that was read by the preceding read operation thereby increasing the chances of getting `read-your-write` consistency.
+
+#### Experiences and Lessons Learned
+Main patterns in which Dynamo is used:
+1. *Business logic specific reconciliation*
+2. *Timestamp based reconciliation*
+3. *High performance read engine*
+
+The main advantage of Dynamo is that its client applications can tune the values of N, R and W to achieve their desired levels of performance, availability and durability. For instance, the value of N determines the durability of each object. A typical value of N used by Dynamo’s users is 3.
+The common (N,R,W) configuration used by several instances of Dynamo is (3,2,2). These values are chosen to meet the necessary levels of performance, durability, consistency, and availability SLAs.
+
+##### Balancing Performance and Durability
+Typical SLA required of services leveraging Dynamo is that the 99.9th percentile read and writes execute within 300ms. 
+
+While this level of performance is acceptable for a number of services, a few customer-facing services required higher levels of performance. For these services, Dynamo provides the ability to trade-off durability guarantees for performance. In the optimization each storage node maintains an object buffer in its main memory. Each write operation is stored in the buffer and gets periodically written to storage by a writer thread. In this scheme, read operations first check if the requested key is present in the buffer. If so, the object is read from the buffer instead of the storage engine.
+Obviously, this scheme trades durability for performance. In this scheme, a server crash can result in missing writes that were queued up in the buffer. To reduce the durability risk, the write operation is refined to have the coordinator choose one out of the N replicas to perform a “durable write”. Since the coordinator waits only for W responses, the performance of the write operation is not affected by the performance of the durable write operation performed by a single replica.
+
+##### Client-driven or Server-driven Coordination
+Dynamo has a request coordination component that uses a state machine to handle incoming requests. Client requests are uniformly assigned to nodes in the ring by a load balancer. Any Dynamo node can act as a coordinator for a read request. Write requests on the other hand will be coordinated by a node in the key’s current preference list. This restriction is due to the fact that these preferred nodes have the added responsibility of creating a new version stamp that causally subsumes the version that has been updated by the write request. Note that if Dynamo’s versioning scheme is based on physical timestamps, any node can coordinate a write request.
+
+An alternative approach to request coordination is to move the state machine to the client nodes. In this scheme client applications use a library to perform request coordination locally. A client periodically picks a random Dynamo node and downloads its current view of Dynamo membership state. Using this information the client can determine which set of nodes form the preference list for any given key. Read requests can be coordinated at the client node thereby avoiding the extra network hop that is incurred if the request were assigned to a random Dynamo node by the load balancer. Writes will either be forwarded to a node in the key’s preference list or can be coordinated locally if Dynamo is using timestamps based versioning.
