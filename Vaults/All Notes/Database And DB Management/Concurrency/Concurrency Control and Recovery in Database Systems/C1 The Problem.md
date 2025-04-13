@@ -83,3 +83,28 @@ We say a transaction **T$_{j}$ reads from T$_{i}$** in an execution if:
 An execution is **recoverable** if for every transaction T that commits, T's commit follows the commit of every transaction from which T read. Recoverability is required to ensure that aborting a transaction does not change the semantics of committed transactions' operations.
 
 #### Terminal I/O
+An execution is recoverable if the DBS is always able to reverse the effects of an aborted transactions on other transactions. The definition of recoverable relies on the assumption that all such effects are through Reads and Writes. Without this assumption, the definition of recoverable does not correspond to its intuition.
+Now there are I/O interactions the user can do that interact with a transaction, and what they decide to do with the information and the DBS none the wiser will not abort transactions related as such.
+One way to prevent this is for the DB to defer transaction T's output until it has been committed, then the user will only see committed output. This while acceptable a lot of times is not something always viable, but we got to live with that you know, if everything went my way I'd be the richest healthiest and probably the laziest person in the world 🤑.
+
+#### Avoiding Cascading Aborts
+Recoverability does not mean no cascading errors, it is in fact essential to have cascading aborts to ensure recoverability.
+The prospect of cascading aborts is understandably a headache for the DBS designer since it involves a lot of bookkeeping and the possibility of cascading soooo many transactions - infinitely many if you think about it. Now that is something you want to walk right past and not look back at, DBS wants the same so they try very hard to avoid cascading aborts.
+
+To do this the DBS makes sure that a transaction only reads committed data (there is a concept of isolation levels that let you get around that).
+
+To achieve cascadelessness, the DBS must delay each Read(x) until all transactions that have previously issued a Write(x, val) have either aborted or committed. In doing so, recoverability is also achieved: a transaction must execute its Commit after having executed all its Reads and therefore after all the Commits of transactions from which it read.
+
+#### Strict Executions
+One of the problems that can occur is when two transactions write to the same variable and abort.
+```c
+Write1(x, 2); Write2(x, 3); Abort1; Abort2;
+```
+The before image of Write,(x, 3) is 2, the value written by T1. However, the value of x after Write,(x, 3) is undone should be 1, the initial value of x (since both updates of x have been aborted). In this case the problem is that the before image was written by an aborted transaction.
+
+To avoid this the execution of `Write(x, val)` should be delayed until all transactions that have previously written `x` are either committed or aborted. Similar to what we had for avoiding cascading aborts that `Read(x)` be delayed until all transaction that had previously written `x` are either committed or aborted.
+
+Executions that satisfy both the above mentioned conditions are called **strict**. Strict execution avoid cascading aborts and are serializable.
+
+### Serializability
+#### Concurrency Control Problem
