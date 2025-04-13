@@ -6,6 +6,7 @@ _____
 ______
 ### Questions And Things to Look Into
 - I'm assuming that `READ UNCOMMITTED` isolation level is not something relevant here. It's commonly used to prevent locking and slowing down thing. 🤷‍♂
+- The part where they say a queue can be used I think its just something they threw out there, does any DB actually use queues? Why would they?
 
 ### Transactions
 *Concurrency* control is the activity of coordinating the actions of processes that operate in parallel, access shared data, and therefore potentially interfere with each other.
@@ -108,3 +109,15 @@ Executions that satisfy both the above mentioned conditions are called **strict*
 
 ### Serializability
 #### Concurrency Control Problem
+When two or more transactions execute concurrently, their database operations execute in an *interleaved* fashion. Operations from one program may execute in between two operations from another program. This interleaving can cause programs to behave incorrectly, or *interfere*, leading to inconsistencies.
+The goal of concurrency control is to avoid this interference.
+Consider two people updating the account concurrently, the read initial value `x` and update it as `x+5` and `x+50` respectively. This would lead to the final result being `x+5` or `x+50` and not `x+55`, since they read the same value.
+
+#### Serializable Executions
+An execution in which no tow transactions are interleaved is called serial. More precisely, an execution is *serial* if, for every pair of transactions, all of the operations of one transaction execute before any of the operations of the other.
+You cannot possibly have the DB execute transaction serially, it would be royal waste of resources. The other option is to broaden the class of allowable executions to include executions that have the same effect as serial ones. Such executions are called *serializable*.
+
+More precisely, an execution is *serializable* if it produces the same output and has the same effect on the database as some serial execution of the same transactions.
+Serializability is the definition of correctness for concurrency control in DBSs.
+
+### Exercise and Answers (At least according to me)
