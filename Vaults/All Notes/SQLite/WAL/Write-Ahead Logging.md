@@ -1,10 +1,9 @@
 _____
 **Created**: 11-04-2025 08:56 pm
-**Status**: In Progress
+**Status**: Completed
 **Tags**: #SQLite #Database #Write_Ahead_Logs [[SQLite]] [[Database]]
 **References**: [SQLite WAL Doc](https://sqlite.org/wal.html)
 ______
-
 ### Overview
 #### Advantage
 - Significantly faster in most scenarios
@@ -25,6 +24,8 @@ he original content is preserved in the database file and the changes are append
 #### Checkpointing
 Checkpointing is moving the WAL file transactions back into the database 
 By default SQLite does a checkpoint automatically when the WAL file reaches a threshold size of `1000 pages`; it is customisable by providing a compile time value.
+
+Checkpointing runs with writes when the WAL file is 1000 pages or more , or when the last connection with the DB closes. Also, the WAL file is automatically deleted when the last open connection to the database file closes.
 
 #### Concurrency
 At the beginning of a read operation in WAL mode, we remember the location of the **last valid commit** record in the WAL file called `end mark`. Multiple readers can have different `end marks` but each individual reader the `end mark` is unchanged for the duration of the transaction.
@@ -47,3 +48,14 @@ Checkpointing requires a sync operation in order to avoid possibility of databas
 The *default strategy* is to let the WAL grow to `1000 pages` then run a checkpoint operation for each subsequent **COMMIT** until the WAL is reset to smaller than 1000 pages. By default it runs automatically when the WAL goes over the specified limit, because of this one would observe that most of the **COMMITs** are fast but there are few that are slow because they run the *checkpoint* operation. You can configure SQLite to not run checkpoint during writes and have it run in separate thread or process.
 
 There is a tradeoff between the **average read** and **average write** performance. This is because the read performance requires the WAL to be as small as possible, to do this you would want to run checkpoints frequently, maybe as often as every commit. On the other hand writes wants to amortize the cost of each checkpoint over as many writes as possible, meaning one wants to run checkpoints infrequently and let the WAL grow as large as possible; directly opposing what we want for reads. 
+
+### Implementation Of Shared-Memory For The WAL-Index
+The only way they found to guarantee that all the process accessing the same database file use the same shared memory was to create the shared memory by `mmpaping` a file in the same directory as the database itself.
+
+You might think using an ordinary disk file to provide shared memory would be disadvantageous, cause it may cause unnecessary disk I/O, but it's not a concern as the file rarely exceeds 32KiB ins size and is never synced.
+
+### Queries Return SQLITE_BUSY In WAL Mode
+I lied when I said reads and writes would carry on concurrently 😝. Following scenarios might give you SQLITE_BUSY:
+- If another database connection has the database mode open in [exclusive locking mode](https://sqlite.org/pragma.html#pragma_locking_mode) then all queries against the database will return [SQLITE_BUSY](https://sqlite.org/rescode.html#busy). Both Chrome and Firefox open their database files in exclusive locking mode, so attempts to read Chrome or Firefox databases while the applications are running will run into this problem, for example.
+- When the last connection to a particular database is closing, that connection will acquire an exclusive lock for a short time while it cleans up the WAL and shared-memory files. If a separate attempt is made to open and query the database while the first connection is still in the middle of its cleanup process, the second connection might get an [SQLITE_BUSY](https://sqlite.org/rescode.html#busy) error.
+- If the last connection to a database crashed, then the first new connection to open the database will start a recovery process. An exclusive lock is held during recovery. So if a third database connection tries to jump in and query while the second connection is running recovery, the third connection will get an [SQLITE_BUSY](https://sqlite.org/rescode.html#busy) error.
