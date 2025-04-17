@@ -121,3 +121,31 @@ More precisely, an execution is *serializable* if it produces the same output an
 Serializability is the definition of correctness for concurrency control in DBSs.
 
 ### Exercise and Answers (At least according to me)
+#### For each example in 1.2 determine if it is serializable, assuming each active transaction ultimately commits.
+- `Write1(x); Read2(x); Wrtie2(y, 3)`: This is serializable since all of the 2s are after 1s.
+- `Write1(x, 1); Write1(y, 3); Wrtie2(y, 1); Read2(x)`: Once again serializable since 2s are after 1s. 2 could commit after writing y and it would be serializable.
+
+```c
+Read1(Accounts[13]) // returns the value $1000
+Read2(Accounts[13]) // returns the value $1000
+Write2(Accounts[13], $101_000)
+Commit2
+Write1(Accounts[13], $1100)
+Commit1
+```
+The above one is non serializable since both transactions read before either one has written but a serial transaction would make sure they see updated values for the reads and not same ones.
+
+```c
+Read4(Accounts[7]) // returns the value $200
+Write4(Accounts[7], $100)
+Read3(Accounts[7]) // returns the value $100
+Read3(Accounts[86]) // returns the value $200
+Read4(Accounts[86]) // returns the value $200
+Write4(Accounts[86], $300)
+Commit4
+Commit3
+```
+Since there are only two transactions; One reads and prints the sum(T1) other deposits(T2), there are only two ways they can happen:
+1. `T1; T2`: Which would net us T1 giving total of 400 and final balances being 100 and 300.
+2. `T1; T2`: Which would net us T1 giving total of 400 and final balances being 100 and 300 again. 
+The above order gives us none of the above so it is non-serializable.

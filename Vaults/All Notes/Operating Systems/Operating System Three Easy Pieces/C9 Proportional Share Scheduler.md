@@ -1,6 +1,6 @@
 _____
 **Created**: 12-04-2025 03:51 pm
-**Status**: In Progress
+**Status**: Completed
 **Tags**: #Operating_System [[Operating Systems]]
 **References**: 
 ______
@@ -86,7 +86,7 @@ Now the weights can be factored in when calculating which process to run next.
 $$
 time\_slice_{k} = \frac{x}{\sum_{i=0}^{n-1}{weight_{i}}}.schedule\_latency
 $$
-#### Using Red-Blcak Trees
+#### Using Red-Black Trees
 - CFS keeps processes in a Red-Black Tree, it has the benefit of operations having logarithmic times and not linear, with the caveat that it has to do a little extra work to maintain low depths.
 - CFS does not keep all processes in this structure, only running or runnable ones, if a process sleeps or is completed it is removed and tracked elsewhere if needed.
 - The processes are ordered in the tree by `vruntime`, and most operations such as deletion and insertion are logarithmic in time, when n is in thousands this makes a significant difference.
